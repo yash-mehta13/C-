@@ -1,0 +1,99 @@
+// msoftcon.cpp
+#include "msoftcon.h"
+
+const int X_SCALE = 2;   // X scaling factor for console cells
+
+HANDLE hConsole;
+
+//-------------------------- init_graphics() -------------------------
+void init_graphics()
+{
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTitle(TEXT("Console Graphics"));
+    CONSOLE_CURSOR_INFO cursorInfo;
+    cursorInfo.dwSize = 1;
+    cursorInfo.bVisible = FALSE;
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
+    system("cls");
+}
+//-------------------------- set_color() -------------------------
+void set_color(color fg)
+{
+    SetConsoleTextAttribute(hConsole, fg);
+}
+//--------------------- set_cursor_pos() -------------------------
+void set_cursor_pos(int x, int y)
+{
+    COORD coord;
+    coord.X = x * X_SCALE;
+    coord.Y = y;
+    SetConsoleCursorPosition(hConsole, coord);
+}
+//------------------------ clear_screen() -----------------------
+void clear_screen()
+{
+    system("cls");
+}
+//---------------------------- wait() ---------------------------
+void wait(int milliseconds)
+{
+    Sleep(milliseconds);
+}
+//------------------------ draw_circle() ------------------------
+void draw_circle(int x, int y, int radius)
+{
+    for (int angle = 0; angle <= 360; angle++)
+    {
+        float theta = angle * 3.14159f / 180;
+        int xPos = static_cast<int>(x + radius * cos(theta));
+        int yPos = static_cast<int>(y + radius * sin(theta) / 2);
+        set_cursor_pos(xPos, yPos);
+        printf("O");
+    }
+}
+//---------------------- draw_rectangle() -----------------------
+void draw_rectangle(int left, int top, int right, int bottom)
+{
+    for (int y = top; y <= bottom; y++)
+    {
+        for (int x = left; x <= right; x++)
+        {
+            set_cursor_pos(x, y);
+            printf("X");
+        }
+    }
+}
+//------------------------ draw_line() --------------------------
+void draw_line(int x1, int y1, int x2, int y2)
+{
+    int dx = x2 - x1;
+    int dy = y2 - y1;
+    int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
+
+    float xInc = dx / (float)steps;
+    float yInc = dy / (float)steps;
+    float x = x1;
+    float y = y1;
+
+    for (int i = 0; i <= steps; i++)
+    {
+        set_cursor_pos(static_cast<int>(x), static_cast<int>(y));
+        printf("*");
+        x += xInc;
+        y += yInc;
+    }
+}
+//---------------------- draw_pyramid() -------------------------
+void draw_pyramid(int x, int y, int height)
+{
+    for (int row = 0; row < height; row++)
+    {
+        int start = x - row;
+        int end = x + row;
+        for (int col = start; col <= end; col++)
+        {
+            set_cursor_pos(col, y + row);
+            printf("#");
+        }
+    }
+}

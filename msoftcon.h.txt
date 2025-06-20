@@ -1,0 +1,25 @@
+// msoftcon.h
+#pragma once
+#include <windows.h>    // for Windows console functions
+
+enum color
+{
+    cBlack, cBlue, cGreen, cCyan, cRed, cMagenta, cBrown, cLightGray,
+    cDarkGray, cLightBlue, cLightGreen, cLightCyan,
+    cLightRed, cLightMagenta, cYellow, cWhite
+};
+
+enum place
+{
+    top, middle, bottom
+};
+
+void init_graphics();
+void set_color(color fg);
+void set_cursor_pos(int x, int y);
+void clear_screen();
+void wait(int milliseconds);
+void draw_circle(int x, int y, int radius);
+void draw_rectangle(int left, int top, int right, int bottom);
+void draw_line(int x1, int y1, int x2, int y2);
+void draw_pyramid(int x, int y, int height);
