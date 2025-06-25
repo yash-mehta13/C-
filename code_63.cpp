@@ -1,14 +1,13 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void changeA(int a){
-  a = 20;
-}
-
 int main(){
   int a = 10;
+  int* ptr = &a;
+  int** parentptr = &ptr;
 
-  changeA(a);
-  cout << " Inside main function : " << a << endl;
+  cout << &a << endl;
+  cout << ptr << endl;
+  cout << **(parentptr) << endl;
   return 0;
 }
